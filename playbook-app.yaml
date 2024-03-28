@@ -1,4 +1,4 @@
-- hosts: appserver
+- hosts: localhost
   become: yes
   roles: 
     - env
