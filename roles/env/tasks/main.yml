@@ -1,0 +1,10 @@
+---
+- name: Create directory 
+  ansible.builtin.file:
+    path: /home/ubuntu/myDir
+    state: directory
+
+- name: Clone repo
+  ansible.builtin.git:
+    repo: https://github.com/nathanforester/BirthDateAppFlask.git
+    dest: /home/ubuntu/myDir

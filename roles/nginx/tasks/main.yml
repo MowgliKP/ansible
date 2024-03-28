@@ -1,0 +1,38 @@
+---
+- name: update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present 
+
+- name: get IP and store as a registered variable 
+  uri:
+    url: http://ifconfig.me/ip
+    return_content: yes
+  register: myIP
+
+- name: delete file with generic contents 
+  ansible.builtin.file:
+    path: /etc/nginx/nginx.conf
+    state: absent 
+
+- name: create and touch nginx.conf
+  copy:
+    dest: /etc/nginx/nginx.conf
+    content: |
+      events{}
+
+      http {
+      
+          server {
+            listen 80;
+            server_name {{ myIP.content }}; 
+          
+            location / {
+                proxy_pass http://127.0.0.1:5000;
+          } 
+        }
+      }

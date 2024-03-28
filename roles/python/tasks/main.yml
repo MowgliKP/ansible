@@ -1,0 +1,23 @@
+---
+- name: create and write app.service
+  copy:
+    dest: /etc/systemd/system/app.service
+    content: |
+      [Unit]
+      Description=My test service 
+      After=multi-user.target
+      [Service]
+      Type=simple
+      Restart=always
+      ExecStart=/usr/bin/python3 /home/ubuntu/myDir/app.py
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Install python pip
+  ansible.builtin.apt:
+    name: python3-pip
+
+- name: install bottle 
+  ansible.builtin.pip:
+    name: flask
+

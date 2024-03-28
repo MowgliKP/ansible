@@ -1,0 +1,16 @@
+---
+- name: reload daemon
+  shell: sudo systemctl daemon-reload
+
+- name: restart nginx  
+  service:
+    name: nginx
+    state: restarted
+  become: true
+  become_method: sudo
+
+- name: start service app 
+  ansible.builtin.systemd:
+    name: app.service
+    state: started
+
